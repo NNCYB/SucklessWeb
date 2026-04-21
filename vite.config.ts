@@ -14,3 +14,6 @@ export default defineConfig({
     '@': path.resolve(__dirname, './src'),
   }}
 })
+module.exports = {
+  publicPath: process.env.NODE_ENV === "production" ? "/SucklessWeb/" : "/",
+};
