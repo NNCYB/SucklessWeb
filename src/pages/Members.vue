@@ -1,9 +1,98 @@
 <script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import Tade from '@/components/Members/Tade.vue'
 import Adam from '@/components/Members/Adam.vue'
 import MatejM from '@/components/Members/MatejM.vue'
 import Alex from '@/components/Members/Alex.vue'
 import MatejK from '@/components/Members/MatejK.vue'
+
+const membersGrid = ref<HTMLElement | null>(null)
+
+let activeCard: HTMLElement | null = null
+
+function clamp(value: number, min: number, max: number) {
+    return Math.min(Math.max(value, min), max)
+}
+
+function resetCard(card: HTMLElement) {
+    card.style.setProperty('--member-card-rotate-x', '0deg')
+    card.style.setProperty('--member-card-rotate-y', '0deg')
+    delete card.dataset.interacting
+}
+
+function handleMembersPointerMove(event: PointerEvent) {
+    if (event.pointerType === 'touch') {
+        return
+    }
+
+    const eventTarget = event.target
+
+    if (!(eventTarget instanceof HTMLElement)) {
+        return
+    }
+
+    const hoveredCard = eventTarget.closest('.member-card')
+
+    if (!(hoveredCard instanceof HTMLElement)) {
+        if (activeCard) {
+            resetCard(activeCard)
+            activeCard = null
+        }
+
+        return
+    }
+
+    if (hoveredCard !== activeCard) {
+        if (activeCard) {
+            resetCard(activeCard)
+        }
+
+        activeCard = hoveredCard
+        activeCard.dataset.interacting = 'true'
+    }
+
+    const rect = hoveredCard.getBoundingClientRect()
+    const localX = event.clientX - rect.left
+    const localY = event.clientY - rect.top
+    const normalizedX = (localX / rect.width) - 0.5
+    const normalizedY = (localY / rect.height) - 0.5
+    const rotateX = clamp(-normalizedY * 7, -4, 4)
+    const rotateY = clamp(normalizedX * 9, -5, 5)
+
+    hoveredCard.style.setProperty('--member-card-rotate-x', `${rotateX.toFixed(2)}deg`)
+    hoveredCard.style.setProperty('--member-card-rotate-y', `${rotateY.toFixed(2)}deg`)
+}
+
+function handleMembersPointerLeave() {
+    if (!activeCard) {
+        return
+    }
+
+    resetCard(activeCard)
+    activeCard = null
+}
+
+onMounted(() => {
+    const grid = membersGrid.value
+
+    if (!grid) {
+        return
+    }
+
+    grid.addEventListener('pointermove', handleMembersPointerMove, { passive: true })
+    grid.addEventListener('pointerleave', handleMembersPointerLeave)
+})
+
+onBeforeUnmount(() => {
+    const grid = membersGrid.value
+
+    if (!grid) {
+        return
+    }
+
+    grid.removeEventListener('pointermove', handleMembersPointerMove)
+    grid.removeEventListener('pointerleave', handleMembersPointerLeave)
+})
 </script>
 
 <template>
@@ -12,12 +101,12 @@ import MatejK from '@/components/Members/MatejK.vue'
             <h1>Spoznajte náš tím...</h1>
         </header>
 
-        <div class="members-grid">
-            <Adam />
-            <Tade />
-            <MatejM />
-            <Alex />
-            <MatejK />
+        <div ref="membersGrid" class="members-grid">
+            <Adam class="member-card" />
+            <Tade class="member-card" />
+            <MatejM class="member-card" />
+            <Alex class="member-card" />
+            <MatejK class="member-card" />
         </div>
     </section>
 </template>
@@ -47,6 +136,32 @@ import MatejK from '@/components/Members/MatejK.vue'
 
 .members-grid > * {
     min-width: 0;
+}
+
+:deep(.member-card) {
+    --member-card-rotate-x: 0deg;
+    --member-card-rotate-y: 0deg;
+    position: relative;
+    overflow: hidden;
+    transform:
+        perspective(1100px)
+        rotateX(var(--member-card-rotate-x))
+        rotateY(var(--member-card-rotate-y))
+        translateY(0);
+    transform-style: preserve-3d;
+    transition:
+        transform 160ms ease,
+        box-shadow 160ms ease;
+    will-change: transform;
+}
+
+:deep(.member-card[data-interacting='true']) {
+    box-shadow: 0 18px 32px oklch(0 0 0 / 0.18);
+    transform:
+        perspective(1100px)
+        rotateX(var(--member-card-rotate-x))
+        rotateY(var(--member-card-rotate-y))
+        translateY(-4px);
 }
 
 :deep([data-slot='card']) {

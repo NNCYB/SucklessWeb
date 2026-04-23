@@ -27,8 +27,8 @@ import { Code } from 'lucide-vue-next'
             <AvatarFallback>TD</AvatarFallback>
             </Avatar>
         </div>
-      <CardTitle>Tadeas Ditte</CardTitle>
-      <CardDescription>Programátor </CardDescription>
+      <CardTitle>Tadeáš Ditte</CardTitle>
+      <CardDescription>Programátor</CardDescription>
     </CardHeader>
     <CardContent>
       <p>Niečo som robil, väčšinou to bolo na chuj, a potom som to prerobil ešte horšie...</p>
@@ -47,7 +47,7 @@ import { Code } from 'lucide-vue-next'
         class="border-sky-500/25 bg-sky-500/10 text-sky-200 dark:border-sky-400/25 dark:bg-sky-400/10 dark:text-sky-100"
       >
             <Code />
-            Programator
+            Programátor
         </Badge>
         </div>
     </CardFooter>

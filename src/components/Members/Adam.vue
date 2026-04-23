@@ -23,15 +23,15 @@ import { Code } from 'lucide-vue-next'
     <CardHeader>
         <div class="flex flex-row flex-wrap items-center gap-12">
             <Avatar>
-                <AvatarImage src="https://avatars.githubusercontent.com/u/206765939?v=4" alt="@ao" />
+                <AvatarImage src="https://avatars.githubusercontent.com/u/206765939?v=4" alt="@catbuf" />
                 <AvatarFallback>AO</AvatarFallback>
             </Avatar>
         </div>
-      <CardTitle>Adam Ondrejčak</CardTitle>
+      <CardTitle>Adam Ondrejčák</CardTitle>
       <CardDescription>Team Lead</CardDescription>
     </CardHeader>
     <CardContent>
-      <p>Však už tam mám že programátor...</p>
+      <p>Však už tam mám, že programátor...</p>
     </CardContent>
     <CardFooter>
         <div class="flex w-full flex-wrap gap-2">

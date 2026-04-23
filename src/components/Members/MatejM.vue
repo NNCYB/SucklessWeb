@@ -27,7 +27,7 @@ import { CircuitBoard } from 'lucide-vue-next'
             </Avatar>
         </div>
       <CardTitle>Matej Majan</CardTitle>
-      <CardDescription>Hardware </CardDescription>
+      <CardDescription>Hardware</CardDescription>
     </CardHeader>
     <CardContent>
       <p>Ale aspoň sme to skúsili...</p>

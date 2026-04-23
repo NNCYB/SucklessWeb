@@ -27,10 +27,10 @@ import { Road } from '@lucide/vue'
             </Avatar>
         </div>
       <CardTitle>Alexandra Farkašová</CardTitle>
-      <CardDescription>Trať </CardDescription>
+      <CardDescription>Trať</CardDescription>
     </CardHeader>
     <CardContent>
-      <p>Moralna podpora + som skaladala trať... A dokonca som doniesla aj baterky</p>
+      <p>Morálna podpora + som skladala trať... A dokonca som doniesla aj baterky</p>
     </CardContent>
     <CardFooter>
         <div class="flex w-full flex-wrap gap-2">
